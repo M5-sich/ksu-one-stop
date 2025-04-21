@@ -1,18 +1,20 @@
 users = {
     "student1": {
         "password": "student1Password",
-        "role": "student"
+        "role": "student",
+        "enrolled_courses": []
     },
     "student2": {
         "password": "student2Password",
-        "role": "student"
+        "role": "student",
+        "enrolled_courses": []
     },
     "advisor1": {
-        "password": "advisorPassword",
+        "password": "advisor1Password",
         "role": "advisor"
     },
     "registrar1": {
-        "password": "registrarPassword",
+        "password": "registrar1Password",
         "role": "registrar"
     },
     "developer1": {

@@ -1,6 +1,5 @@
 from Validation import Login
 from Actions.CourseActions import CourseActions
-
 from Data.UserData import users
 from Actions.AdvisorActions import AdvisorActions
 from Actions.RegistrarActions import RegistrarActions
@@ -14,82 +13,16 @@ mainAttempts = 0
 attempts = 0
 
 # ----------------------------------------------------------------------------------------------------------------------#
-
-print("[Welcome to the KSU one-stop!]")
-
-while shouldContinueMain:
-    print("Please enter your designation below: \n"
-          "    1) Student\n"
-          "    2) Advisor\n"
-          "    3) Registrar\n"
-          "    4) Admin\n"
-          "    5) Developer\n"
-          "    6) Bursar")
-    usertype = int(input("Designation: "))
-
-    if usertype < 1 or usertype > 6:
-        print("Invalid designation.")
-    else:
-        if mainAttempts <= 1:
-            while shouldContinue:
-                if attempts < 3:
-                    username = input("Username: ")
-                    password = input("Password: ")
-
-                    login = Login(username, password)
-
-                    if login.validate():
-                        print("Login successful!")
-
-                        if usertype == 1:
-                            print("Student menu loading...")
-                            student_main_menu()
-                        elif usertype == 2:
-                            print("Advisor menu loading...")
-                            advisor_main_menu()
-                        elif usertype == 3:
-                            print("Registrar menu loading...")
-                            registrar_main_menu()
-                        elif usertype == 4:
-                            print("Admin menu loading...")
-                            admin_main_menu()
-                        elif usertype == 5:
-                            print("Developer menu loading...")
-                            developer_main_menu()
-                        elif usertype == 6:
-                            print("Bursar menu loading...")
-                            bursar_main_menu()
-
-                    shouldContinue = False
-                    shouldContinueMain = False
-                else:
-                    attempts += 1
-                    print("Incorrect Username or Password.")
-                    print(f"You have {3 - attempts} attempts left.")
-            else:
-                print("Too many attempts. Please wait 1 hour until next attempt.")
-                shouldContinue = False
-        else:
-            mainAttempts += 1
-            if mainAttempts > 1:
-                print("Multiple attempts have been made over a span of an hour. Program has shut down.")
-                shouldContinueMain = False
-            else:
-                print("One hour has passed...")
-
-
-# ----------------------------------------------------------------------------------------------------------------------#
-# Methods:
-def student_main_menu():
-    student_actions = CourseActions()
+# Menu Methods
+def student_main_menu(username):
+    student_actions = CourseActions(username)
 
     while True:
-        print("\nWhat would you like to do?")
-        print("1) View Available Courses")
-        print("2) Enroll in a Course")
-        print("3) View Enrolled Courses")
-        print("4) Exit")
-
+        print("\nWhat would you like to do?\n"
+              "1) View Available Courses\n"
+              "2) Enroll in a Course\n"
+              "3) View Enrolled Courses\n"
+              "4) Exit")
         choice = input("Enter choice: ")
 
         if choice == "1":
@@ -108,14 +41,12 @@ def student_main_menu():
 
 def advisor_main_menu():
     advisor = AdvisorActions()
-
     while True:
-        print("\nWhat would you like to do?")
-        print("1) View Student Course History")
-        print("2) Schedule Advising Session")
-        print("3) Recommend Courses for Graduation")
-        print("4) Exit")
-
+        print("\nAdvisor Menu:\n"
+              "1) View Student Course History\n"
+              "2) Schedule Advising Session\n"
+              "3) Recommend Courses for Graduation\n"
+              "4) Exit")
         choice = input("Enter choice: ")
 
         if choice == "1":
@@ -133,14 +64,12 @@ def advisor_main_menu():
 
 def registrar_main_menu():
     registrar = RegistrarActions()
-
     while True:
-        print("\nRegistrar Menu:")
-        print("1) View All Student Enrollments")
-        print("2) Enroll a Student in a Course")
-        print("3) Drop a Student from a Course")
-        print("4) Exit")
-
+        print("\nRegistrar Menu:\n"
+              "1) View All Student Enrollments\n"
+              "2) Enroll a Student in a Course\n"
+              "3) Drop a Student from a Course\n"
+              "4) Exit")
         choice = input("Enter choice: ")
 
         if choice == "1":
@@ -158,14 +87,12 @@ def registrar_main_menu():
 
 def admin_main_menu():
     admin = AdminActions()
-
     while True:
-        print("\nAdmin Menu:")
-        print("1) View All Users")
-        print("2) Add New User")
-        print("3) Delete User")
-        print("4) Exit")
-
+        print("\nAdmin Menu:\n"
+              "1) View All Users\n"
+              "2) Add New User\n"
+              "3) Delete User\n"
+              "4) Exit")
         choice = input("Enter choice: ")
 
         if choice == "1":
@@ -180,16 +107,15 @@ def admin_main_menu():
         else:
             print("Invalid input. Please try again.")
 
+
 def developer_main_menu():
     developer = DeveloperActions()
-
     while True:
-        print("\nDeveloper Menu:")
-        print("1) View All Raw Course Data")
-        print("2) View All Raw User Data")
-        print("3) Reset All Course Seat Counts")
-        print("4) Exit")
-
+        print("\nDeveloper Menu:\n"
+              "1) View All Raw Course Data\n"
+              "2) View All Raw User Data\n"
+              "3) Reset All Course Seat Counts\n"
+              "4) Exit")
         choice = input("Enter choice: ")
 
         if choice == "1":
@@ -204,15 +130,14 @@ def developer_main_menu():
         else:
             print("Invalid input. Please try again.")
 
+
 def bursar_main_menu():
     bursar = BursarActions()
-
     while True:
-        print("\nBursar Menu:")
-        print("1) View All Student Tuition")
-        print("2) View Individual Student Tuition")
-        print("3) Exit")
-
+        print("\nBursar Menu:\n"
+              "1) View All Student Tuition\n"
+              "2) View Individual Student Tuition\n"
+              "3) Exit")
         choice = input("Enter choice: ")
 
         if choice == "1":
@@ -224,4 +149,72 @@ def bursar_main_menu():
             break
         else:
             print("Invalid input. Please try again.")
+
 # ----------------------------------------------------------------------------------------------------------------------#
+# Login Flow
+
+print("[Welcome to the KSU one-stop!]")
+
+shouldContinueMain = True
+mainAttempts = 0
+
+while shouldContinueMain:
+    print("Designation list choices: \n"
+          "    1) Student\n"
+          "    2) Advisor\n"
+          "    3) Registrar\n"
+          "    4) Admin\n"
+          "    5) Developer\n"
+          "    6) Bursar\n"
+          "    7) Exit Program")
+    usertype = int(input("Designation: "))
+
+    if usertype == 7:
+        print("Program Exited")
+        shouldContinueMain = False
+
+    elif usertype < 1 or usertype > 7:
+        print("Invalid designation.")
+
+    else:
+        shouldContinue = True
+        attempts = 0
+
+        while shouldContinue:
+            if attempts < 3:
+                username = input("Username: ")
+                password = input("Password: ")
+
+                login = Login(username, password)
+
+                if login.validate():
+                    print("Login successful!")
+
+                    if usertype == 1:
+                        print("Student menu loading...")
+                        student_main_menu(username)
+                    elif usertype == 2:
+                        print("Advisor menu loading...")
+                        advisor_main_menu()
+                    elif usertype == 3:
+                        print("Registrar menu loading...")
+                        registrar_main_menu()
+                    elif usertype == 4:
+                        print("Admin menu loading...")
+                        admin_main_menu()
+                    elif usertype == 5:
+                        print("Developer menu loading...")
+                        developer_main_menu()
+                    elif usertype == 6:
+                        print("Bursar menu loading...")
+                        bursar_main_menu()
+
+                    shouldContinue = False
+                else:
+                    attempts += 1
+                    print("Incorrect Username or Password.")
+                    print(f"You have {3 - attempts} attempts left.")
+            else:
+                print("Too many attempts. Please wait 1 hour until next attempt.")
+                shouldContinue = False
+                shouldContinueMain = False
