@@ -10,7 +10,7 @@ class Login:
     def validate(self):
         if self.username in users:
             if self.password == users[self.username]["password"]:
-                return True  # Username and password match
+                return True
             else:
-                return False  # Username found, but password is wrong
-        return False  # Username not found
+                return False
+        return False
